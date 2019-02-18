@@ -8,8 +8,8 @@
    </head>
    
    <body>
-		<form name="formulario" action="downmusic_modelo.php" method="post">
-		  Selecciona la categoria<select name="cat">
+		<form name="formulario" action="../model/downmusic_modelo.php?action=llamada" method="post">
+		  Selecciona la categoria<select name="cancion">
 									<?php
 									set_error_handler("errores");
 									
@@ -25,11 +25,15 @@
 									}
 						
 								  echo "</select><br><br>";
+								  
 		?>
-				<input type='checkbox' name= 'seguir'> Seguir comprando
+				
 		<br><br>
 		 <input type="submit" value="Comprar">
-		 <input type="reset" value="Cancelar compra">
+		 </form>
+		 <form name="formulario2" action="../model/downmusic_modelo.php" method="post">
+		 
+			<input type="submit" value="Finalizar compra">
 		 </form>
 		  <h2><a href = "../controller/logout.php">Cerrar Sesion</a></h2>
 		
