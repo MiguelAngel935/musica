@@ -10,7 +10,7 @@ $select="select * from Invoice where CustomerId=(select CustomerId from Customer
       echo "<th>";
       echo "<td>ID</td><td>ID Cliente</td><td>Fecha</td><td>Direccion Fac</td>
             <td>Ciudad Fac</td><td>Estado Fac</td><td>Pais Fac</td>
-            <tdCodigo Postal Fac</td><td>Total</td>";
+            <td>Codigo Postal Fac</td><td>Total</td>";
       echo "</th>";
 			while($fila = mysqli_fetch_assoc($resultado)) {
 				echo "<tr>";
