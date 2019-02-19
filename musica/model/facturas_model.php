@@ -6,9 +6,11 @@ set_error_handler("errores");
 $fecha1=$_POST['date1'];
 $fecha2=$_POST['date2'];
 
+//select que muestra los datos de la tabla Invoice del usuario conectado comprendidos entre 2 fechas
 $select="select * from Invoice where CustomerId=(select CustomerId from Customer 
           where FirstName='".$login_session."') and (InvoiceDate between '".$fecha1."' and '".$fecha2."');";
 		
+		//Comprobamos que hay datos y creamos una tabla para mostrarlos
 		$resultado = mysqli_query($db, $select);
 		if ($resultado && mysqli_num_rows($resultado) > 0) {
       echo "<table border='1'>";
