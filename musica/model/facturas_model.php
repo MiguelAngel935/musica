@@ -1,3 +1,4 @@
+<?php
 include("../controller/session.php");
 include ("../errores.php");
 set_error_handler("errores");
@@ -6,16 +7,16 @@ $fecha1=$_POST['date1'];
 $fecha2=$_POST['date2'];
 
 $select="select * from Invoice where CustomerId=(select CustomerId from Customer 
-          where FirstName=".$login_session." and InvoiceDate between ".$fecha1." and ".$fecha2.";";
+          where FirstName='".$login_session."') and (InvoiceDate between '".$fecha1."' and '".$fecha2."');";
 		
 		$resultado = mysqli_query($db, $select);
 		if ($resultado && mysqli_num_rows($resultado) > 0) {
-      echo "<table>";
-      echo "<th>";
-      echo "<td>ID</td><td>ID Cliente</td><td>Fecha</td><td>Direccion Fac</td>
-            <td>Ciudad Fac</td><td>Estado Fac</td><td>Pais Fac</td>
-            <td>Codigo Postal Fac</td><td>Total</td>";
-      echo "</th>";
+      echo "<table border='1'>";
+      echo "<tr>";
+      echo "<th>ID</th><th>ID Cliente</th><th>Fecha</th><th>Direccion Fac</th>
+            <th>Ciudad Fac</th><th>Estado Fac</th><th>Pais Fac</th>
+            <th>Codigo Postal Fac</th><th>Total</th>";
+      echo "</tr>";
 			while($fila = mysqli_fetch_assoc($resultado)) {
 				echo "<tr>";
         echo "<td>".$fila['InvoiceId']."</td><td>".$fila['CustomerId']."</td><td>".$fila['InvoiceDate']."</td>
@@ -24,4 +25,7 @@ $select="select * from Invoice where CustomerId=(select CustomerId from Customer
         echo "</tr>";
 			}
       echo "</table>";
+		}else{
+			echo "No se encontraron factiras entre las fechas indicadas";
 		}
+?>

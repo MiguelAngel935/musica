@@ -1,5 +1,5 @@
 <?php
-// include("../controller/session.php");
+
 include ("../errores.php");
 set_error_handler("errores");
 
@@ -26,12 +26,16 @@ $idcancion=$_POST['cancion'];
 	}
 	setcookie('cookie', serialize($listacanciones), time()+3600);
 	var_dump($listacanciones);
+	echo "<br/><br/><a href='../view/welcome.php'>Volver</a>";
 }
 function finalizarcompra(){
+include('../controller/session.php');
+	$funciona=true;
 	$where=null;
+	$precio=0;
 	if(isset($_COOKIE['cookie'])){
 		for ($i=0; $i<count($_COOKIE['cookie']); $i++){
-		if($i=0;){
+		if($i=0){
 			$where=" TrackId=".$_COOKIE['cookie'][$i];
 		}else{
 			$where=$where." or TrackId=".$_COOKIE['cookie'][$i];
@@ -49,16 +53,12 @@ function finalizarcompra(){
 		
 		
 		$invoice="insert into invoice(InvoiceId,CustomerId,InvoiceDate,BillingCity,BillingState,BillingCountry,BillingPostalCode,Total)
-		values(select max(InvoiceId)+1 from invoice, select CustomerId from customer where FirstName='".$login_session."',
-		".date('Y-m-d')."), select customer.City from customer where FirstName='".$login_session."', select customer.State from customer where FirstName='".$login_session."', 
-		select customer.Country from customer where FirstName='".$login_session."', select customer.PostalCode from customer where FirstName='".$login_session."',".$precio.";";
+		values(select max(InvoiceId)+1 from invoice), (select CustomerId from customer where FirstName='".$login_session."',
+		".date('Y-m-d')."), (select customer.City from customer where FirstName='".$login_session."', select customer.State from customer where FirstName='".$login_session."'), 
+		(select customer.Country from customer where FirstName='".$login_session."'), (select customer.PostalCode from customer where FirstName='".$login_session."'),".$precio.";";
 		
 		$resultado_invoice = mysqli_query($db, $invoice);
 
-		if ($resultado_upd && $resultado_in){
-			echo "";
-			mysqli_commit($db);
-		}
 		
 		for ($i=0; $i<count($_COOKIE['cookie']); $i++){
 			$invoiceline="insert into invoiceline(InvoiceLineId,InvoiceId,TrackId,UnitPrice,Quantity) values(select max(InvoiceLineId)+1 from invoiceline,
@@ -67,11 +67,19 @@ function finalizarcompra(){
 			
 			$resultado_invoiceline = mysqli_query($db, $invoiceline);
 
-			if ($resultado_upd && $resultado_in){
-				echo "";
-				mysqli_commit($db);
+			if (!$resultado_invoiceline){
+				$funciona=false;
 			}
 		}
+		if ($resultado_invoice && $funciona){
+				setcookie("cookie", "", time()-3600);
+				mysqli_commit($db);
+				header("Location:../view/compra_correcta.php");
+			}else{
+				echo "Hubo un error y no se realizo la compra";
+				echo "<br/><br/><a href='../view/welcome.php'>Volver</a>";
+			}
+			
 	}else{
 		echo "Selecciona al menos una cancion para comprar";
 	}

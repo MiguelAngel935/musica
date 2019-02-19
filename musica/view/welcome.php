@@ -14,7 +14,7 @@
 	  <nav class="dropdownmenu">
   <ul>
     <li><a href="downmusic.php">Comprar musica</a></li>
-    <li><a href="../model/histfacturas_model.php">Ver facturas</a></li>
+    <li><a href="histfacturas.php">Ver facturas</a></li>
     <li><a href="facturas.php">Ver facturas entre dos fechas</a></li>
   </ul>
 </nav>
